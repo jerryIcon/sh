@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 指定Struts2配置文件的DTD信息 -->
+<!DOCTYPE struts PUBLIC  "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+	<package name="default" extends="struts-default" namespace="/*">
+		<!-- 声明拦截器 -->
+		<interceptors>
+			<interceptor name="privilege" class="com.xwj.utils.PrivilegeInterceptor"></interceptor>
+			<interceptor-stack name="myStack">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="privilege"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		
+		<action name="login" class="com.xwj.action.LoginAction" >
+			<result type="redirectAction">/home</result>
+			<result name="error">/login.jsp</result>
+		</action>
+		
+		<action name="register" class="com.xwj.action.RegisterAction" >
+			<result type="redirectAction">/login.jsp</result>
+			<result name="error">/register.jsp</result>
+		</action>
+		
+		<action name="home" class="com.xwj.action.BookAction" >
+			<result>/home.jsp</result>
+			<result name="login">/login.jsp</result>
+			<interceptor-ref name="myStack"></interceptor-ref>
+		</action>
+	
+	</package>
+</struts>
